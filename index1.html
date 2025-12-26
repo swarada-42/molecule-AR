@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Chemical Reaction AR</title>
+
+  <!-- A-Frame -->
+  <script src="https://aframe.io/releases/1.4.0/aframe.min.js"></script>
+
+  <!-- AR.js -->
+  <script src="https://cdn.jsdelivr.net/gh/AR-js-org/AR.js@3.4.5/aframe/build/aframe-ar.js"></script>
+
+  <script>
+    // Marker → Model mapping
+    const MODEL_MAP = {
+      "marker-carbon": "models/carbon.glb",
+      "marker-oxygen": "models/oxygen.glb",
+      "marker-co2": "models/co2.glb"
+    };
+
+    AFRAME.registerComponent("marker-handler", {
+      init: function () {
+        const markerId = this.el.id;
+        const modelEntity = document.querySelector("#reaction-model");
+
+        this.el.addEventListener("markerFound", () => {
+          const modelPath = MODEL_MAP[markerId];
+          if (modelPath) {
+            modelEntity.setAttribute("gltf-model", modelPath);
+            modelEntity.setAttribute("visible", "true");
+          }
+        });
+
+        this.el.addEventListener("markerLost", () => {
+          modelEntity.setAttribute("visible", "false");
+        });
+      }
+    });
+  </script>
+</head>
+
+<body style="margin:0; overflow:hidden;">
+  <a-scene embedded arjs="debugUIEnabled:false;">
+
+    <!-- Lighting -->
+    <a-light type="ambient" intensity="1"></a-light>
+    <a-light type="directional" position="1 2 1"></a-light>
+
+    <!-- Carbon Marker -->
+    <a-marker
+      id="marker-carbon"
+      type="pattern"
+      url="markers/carbon_marker.patt"
+      marker-handler>
+    </a-marker>
+
+    <!-- Oxygen Marker -->
+    <a-marker
+      id="marker-oxygen"
+      type="pattern"
+      url="markers/oxygen_marker.patt"
+      marker-handler>
+    </a-marker>
+
+    <!-- CO2 Marker -->
+    <a-marker
+      id="marker-co2"
+      type="pattern"
+      url="markers/co2_marker.patt"
+      marker-handler>
+    </a-marker>
+
+    <!-- Single Dynamic Model -->
+    <a-entity
+      id="reaction-model"
+      scale="0.05 0.05 0.05"
+      position="0 0.05 0"
+      rotation="-90 0 0"
+      visible="false"
+      animation="property: rotation; to: -90 360 0; loop: true; dur: 12000">
+    </a-entity>
+
+    <a-entity camera></a-entity>
+  </a-scene>
+</body>
+</html>
