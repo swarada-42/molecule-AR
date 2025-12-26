@@ -26,13 +26,23 @@
       url="markers/my_marker.patt">
 
       <!-- MOLECULE MODEL -->
-      <a-entity
+      <!-- <a-entity
         gltf-model="molecule.glb"
         scale="0.4 0.4 0.4"
         position="0 0 0"
         rotation="0 0 0"
         animation="property: rotation; to: 0 360 0; loop: true; dur: 10000">
-      </a-entity>
+      </a-entity> -->
+
+      <a-entity
+  gltf-model="molecule.glb"
+  scale="0.4 0.4 0.4"
+  position="0 0 0"
+  rotation="-90 0 0"
+  visible="false"
+  touch-transform>
+</a-entity>
+
 
     </a-marker>
 
@@ -40,3 +50,4 @@
   </a-scene>
 </body>
 </html>
+
